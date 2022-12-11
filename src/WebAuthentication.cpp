@@ -71,9 +71,13 @@ static bool getMD5(uint8_t * data, uint16_t len, char * output){//33 bytes or mo
   memset(_buf, 0x00, 16);
 #ifdef ESP32
   mbedtls_md5_init(&_ctx);
-  mbedtls_md5_starts_ret(&_ctx);
-  mbedtls_md5_update_ret(&_ctx, data, len);
-  mbedtls_md5_finish_ret(&_ctx, _buf);
+  mbedtls_md5_update_ret (&_ctx,data,len);
+  mbedtls_md5_finish_ret(&_ctx,data);
+  mbedtls_internal_md5_process( &_ctx ,data);
+//mbedtls_md5_init(&_ctx);
+//mbedtls_md5_starts_ret(&_ctx);
+//mbedtls_md5_update_ret(&_ctx, data, len);
+//mbedtls_md5_finish_ret(&_ctx, _buf);
 #else
   MD5Init(&_ctx);
   MD5Update(&_ctx, data, len);
